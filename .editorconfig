@@ -1,0 +1,32 @@
+# EditorConfig 配置文件
+# https://editorconfig.org/
+
+# 顶层配置文件，不再向上查找
+root = true
+
+# 所有文件的默认设置
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Python文件特定设置
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+# Markdown文件特定设置
+[*.md]
+trim_trailing_whitespace = false
+
+# YAML文件特定设置
+[*.{yml,yaml}]
+indent_size = 2
+
+# 配置文件特定设置
+[*.{json,toml}]
+indent_size = 2
