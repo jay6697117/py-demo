@@ -48,5 +48,4 @@ for _ in range(20):
     # 注意：右侧的a和b是更新前的值
     a, b = b, a + b
 
-    # 打印当前的斐波那契数
     print(a)
