@@ -34,7 +34,7 @@
 
 # Version: 1.0
 # Author: 骆昊
-# """
+#"""
 # # 初始化斐波那契数列的前两个值
 # # a表示当前数列中的数，b表示下一个数
 # a, b = 0, 1
@@ -99,7 +99,6 @@
 #     high = num // 100 # 百位
 #     if num == low ** 3 + mid ** 3 + high ** 3:
 #         print(num)
-
 
 
 # """
@@ -168,29 +167,161 @@ z % 3 == 0 (因为小鸡3只1钱，所以小鸡数量必须是3的倍数)
 由 7x = 100 - 4y 可知，7x 为偶数，故 x 为偶数。
 x <= 100/7 约等于14
 """
+# solutions = []
+# # x: 公鸡数量
+# # x 必须是偶数，且 7x <= 100  => x <= 14
+# for x in range(0, 14 + 1, 2):
+#     print(x)
+#     print("------1----")
+#     # 7x + 4y = 100  => 4y = 100 - 7x
+#     val_for_4y = 100 - 7 * x
 
-solutions = []
-# x: 公鸡数量
-# x 必须是偶数，且 7x <= 100  => x <= 14
-for x in range(0, 14 + 1, 2):
-    # 7x + 4y = 100  => 4y = 100 - 7x
-    val_for_4y = 100 - 7 * x
+#     # y 必须是整数且 y >= 0
+#     # 检查 val_for_4y 是否满足两个条件:
+#     # 1. val_for_4y >= 0：确保 y 不会是负数
+#     # 2. val_for_4y % 4 == 0：确保 y 是整数（因为 val_for_4y 是 4y）
+#     if val_for_4y >= 0 and val_for_4y % 4 == 0:
+#         y = val_for_4y // 4  # y: 母鸡数量
+#         print(y)
+#         print("------2----")
+#         # x + y + z = 100 => z = 100 - x - y
+#         z = 100 - x - y  # z: 小鸡数量
 
-    # y 必须是整数且 y >= 0
-    if val_for_4y >= 0 and val_for_4y % 4 == 0:
-        y = val_for_4y // 4  # y: 母鸡数量
+#         # z 必须是整数, z >= 0 且 z % 3 == 0
+#         if z >= 0 and z % 3 == 0:
+#             print(z)
+#             print("------3----")
+#             solutions.append((x, y, z))
 
-        # x + y + z = 100 => z = 100 - x - y
-        z = 100 - x - y  # z: 小鸡数量
+# # 打印结果
+# print("\n百钱百鸡问题的所有解法：")
+# if solutions:
+#     for sol in solutions:
+#         print(f"公鸡: {sol[0]}, 母鸡: {sol[1]}, 小鸡: {sol[2]}")
+# else:
+#     print("没有找到解法。")
 
-        # z 必须是整数, z >= 0 且 z % 3 == 0
-        if z >= 0 and z % 3 == 0:
-            solutions.append((x, y, z))
 
-# 打印结果
-print("\n百钱百鸡问题的所有解法：")
-if solutions:
-    for sol in solutions:
-        print(f"公鸡: {sol[0]}, 母鸡: {sol[1]}, 小鸡: {sol[2]}")
-else:
-    print("没有找到解法。")
+"""
+CRAPS赌博游戏
+这是一个模拟CRAPS（花旗骰）赌博游戏的程序。
+游戏规则：
+1. 玩家初始有1000元赌注
+2. 每局开始前玩家下注
+3. 第一轮：
+   - 摇出7或11点 -> 玩家胜
+   - 摇出2、3或12点 -> 庄家胜
+   - 其他点数记为"目标点"，继续游戏
+4. 后续轮次：
+   - 摇出7点 -> 庄家胜
+   - 摇出目标点 -> 玩家胜
+   - 其他点数继续摇骰子
+5. 游戏结束条件：玩家破产（赌注为0）
+
+Version: 1.0
+Author: 骆昊
+"""
+
+# 导入random模块，用于生成随机数
+import random
+
+def roll_dice():
+    """
+    模拟掷两个骰子并返回点数和
+    使用random.randint(1, 6)分别生成两个1-6之间的随机数，模拟两个骰子
+
+    Returns:
+        int: 两个骰子的点数和（范围：2-12）
+    """
+    # 生成第一个骰子的点数(1-6)并与第二个骰子的点数相加
+    return random.randint(1, 6) + random.randint(1, 6)
+
+def get_valid_bet(money):
+    """
+    获取并验证玩家的下注金额
+
+    Args:
+        money (int): 玩家当前的资金总额
+
+    Returns:
+        int: 有效的下注金额（大于0且不超过当前资金）
+
+    说明：
+    - 使用无限循环直到获取到有效输入
+    - 使用try-except处理非数字输入
+    - 验证下注金额的合理性
+    """
+    while True:  # 持续循环直到获得有效输入
+        try:
+            # 提示用户输入下注金额，并转换为整数
+            bet = int(input(f'您的总资金为{money}元，请下注: '))
+            # 验证下注金额是否在有效范围内
+            if 0 < bet <= money:
+                return bet
+            # 如果金额无效，提示错误信息
+            print('下注金额必须大于0且不能超过总资金')
+        except ValueError:
+            # 处理输入无法转换为整数的情况
+            print('请输入有效的数字')
+
+def play_game():
+    """
+    CRAPS游戏的主要逻辑实现函数
+
+    游戏流程：
+    1. 初始化玩家资金
+    2. 循环进行游戏，直到玩家破产或选择退出
+    3. 每轮游戏包含下注和掷骰子环节
+    4. 根据规则判定输赢并更新资金
+    """
+    money = 1000  # 设置初始资金为1000元
+
+    # 只要玩家还有钱就可以继续游戏
+    while money > 0:
+        # 获取玩家的有效下注金额
+        bet = get_valid_bet(money)
+        # 第一次掷骰子
+        first_roll = roll_dice()
+        print(f'第一次摇出了{first_roll}点')
+
+        # 判断第一轮的结果
+        if first_roll in (7, 11):  # 如果第一轮摇出7或11点
+            print('玩家胜!')
+            money += bet  # 玩家获胜，增加赌注
+        elif first_roll in (2, 3, 12):  # 如果第一轮摇出2、3或12点
+            print('庄家胜!')
+            money -= bet  # 庄家获胜，扣除赌注
+        else:  # 如果摇出其他点数，记为目标点数，继续游戏
+            print(f'目标点数是{first_roll}')
+            # 继续掷骰子直到分出胜负
+            while True:
+                current_roll = roll_dice()
+                print(f'摇出了{current_roll}点')
+
+                # 判断后续轮次的结果
+                if current_roll == 7:  # 如果摇出7点
+                    print('庄家胜!')
+                    money -= bet  # 庄家获胜，扣除赌注
+                    break
+                elif current_roll == first_roll:  # 如果摇出与第一轮相同的点数
+                    print('玩家胜!')
+                    money += bet  # 玩家获胜，增加赌注
+                    break
+                # 其他情况继续掷骰子
+
+        # 显示当前资金状况
+        print(f'您现在有{money}元')
+        # 检查是否破产
+        if money <= 0:
+            print('游戏结束，您破产了!')
+            break
+
+        # 询问是否继续游戏
+        # lower()将输入转换为小写，startswith('y')检查是否以'y'开头
+        if not input('是否继续游戏？(y/n) ').lower().startswith('y'):
+            print(f'您最终的资金为{money}元')
+            break
+
+# 当直接运行此脚本时执行游戏
+if __name__ == '__main__':
+    play_game()
