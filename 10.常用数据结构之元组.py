@@ -15,17 +15,78 @@
 # print(t1 <= (35, 11, 99))  # False
 # print(t1 >= (35, 11, 99))  # True
 
-
-
 # 一个元组中如果有两个元素，我们就称之为二元组；一个元组中如果五个元素，我们就称之为五元组。需要提醒大家注意的是，()表示空元组，但是如果元组中只有一个元素，需要加上一个逗号，否则()就不是代表元组的字面量语法，而是改变运算优先级的圆括号，所以('hello', )和(100, )才是一元组，而('hello')和(100)只是字符串和整数。我们可以通过下面的代码来加以验证。
+# a = ()
+# print(type(a))  # <class 'tuple'>
+# b = ('hello')
+# print(type(b))  # <class 'str'>
+# c = (100)
+# print(type(c))  # <class 'int'>
+# d = ('hello', )
+# print(type(d))  # <class 'tuple'>
+# e = (100, )
+# print(type(e))  # <class 'tuple'>
 
-a = ()
-print(type(a))  # <class 'tuple'>
-b = ('hello')
-print(type(b))  # <class 'str'>
-c = (100)
-print(type(c))  # <class 'int'>
-d = ('hello', )
-print(type(d))  # <class 'tuple'>
-e = (100, )
-print(type(e))  # <class 'tuple'>
+# 当我们把多个用逗号分隔的值赋给一个变量时，多个值会打包成一个元组类型；当我们把一个元组赋值给多个变量时，元组会解包成多个值然后分别赋给对应的变量，如下面的代码所示。
+# 打包操作
+# a = 1, 10, 100
+# print(type(a))  # <class 'tuple'>
+# print(a)        # (1, 10, 100)
+# # 解包操作
+# i, j, k = a
+# print(i, )  # 1 10 100
+# print(j)  # 1 10 100
+# print(k)  # 1 10 100
+
+# 有一种解决变量个数少于元素的个数方法，就是使用星号表达式。通过星号表达式，我们可以让一个变量接收多个值，代码如下所示。需要注意两点：首先，用星号表达式修饰的变量会变成一个列表，列表中有0个或多个元素；其次，在解包语法中，星号表达式只能出现一次。
+
+# a = 1, 10, 100, 1000
+# i, j, *k = a
+# print(i, j, k)        # 1 10 [100, 1000]
+# i, *j, k = a
+# print(i, j, k)        # 1 [10, 100] 1000
+# *i, j, k = a
+# print(i, j, k)        # [1, 10] 100 1000
+# *i, j = a
+# print(i, j)           # [1, 10, 100] 1000
+# i, *j = a
+# print(i, j)           # 1 [10, 100, 1000]
+# i, j, k, *l = a
+# print(i, j, k, l)     # 1 10 100 [1000]
+# i, j, k, l, *m = a
+# print(i, j, k, l, m)  # 1 10 100 1000 []
+
+# print("-----------------------")
+# print(range(1, 10))
+# # print(list(range(1, 10)))
+# a, b, *c = range(1, 10)
+# # a, b, *c = list(range(1, 10))
+# print(a, b, c)
+# a, b, c = [1, 10, 100]
+# print(a, b, c)
+# a, *b, c = "hello"  #  ['h','e', 'l', 'l','o'] -> h ['e', 'l', 'l'] o
+# print(a, b, c)
+
+# import timeit
+
+# # %.3f 是一个字符串格式化的占位符:
+# # % - 表示这是一个格式化操作
+# # .3 - 表示保留3位小数
+# # f - 表示这是一个浮点数
+# # 整体的 '%.3f 秒' % x 会把 x 的值格式化为保留3位小数的形式,然后加上"秒"字
+# # 这里的第二个%是字符串格式化运算符，用于将timeit.timeit()的返回值(浮点数)
+# # 插入到字符串'%.3f 秒'中的%.3f位置
+# # 相当于将 timeit.timeit() 的结果替换掉 %.3f
+# print('%.3f 秒' % timeit.timeit('[1, 2, 3, 4, 5, 6, 7, 8, 9]', number=10000000))
+# print('%.3f 秒' % timeit.timeit('(1, 2, 3, 4, 5, 6, 7, 8, 9)', number=10000000))
+
+# 当然，Python 中的元组和列表类型是可以相互转换的，我们可以通过下面的代码来完成该操作。
+# 元组是不可变的有序列表，元组中的元素是不可变的，元组中的元素可以是任何类型，也可以是元组类型。
+
+infos = ('骆昊', 43, True, '四川成都') # 元组
+# 将元组转换成列表
+print(list(infos))  # ['骆昊', 43, True, '四川成都']
+
+frts = ['apple', 'banana', 'orange'] # 列表
+# 将列表转换成元组
+print(tuple(frts))  # ('apple', 'banana', 'orange')
